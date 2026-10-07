@@ -10,6 +10,7 @@
 	"repository": "https://github.com/tedix-hq/tedix-plugins",
 	"license": "AGPL-3.0-only",
 	"privacyPolicyUrl": "https://tedix.dev/privacy/",
+	"termsOfServiceUrl": "https://tedix.dev/terms/",
 	"keywords": [
 		"tedix",
 		"digital-workers",
