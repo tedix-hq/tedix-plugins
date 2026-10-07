@@ -1,0 +1,15 @@
+{
+	"name": "tedix-plugins",
+	"description": "The Tedix plugin for Claude Code",
+	"owner": {
+		"name": "Tedix",
+		"url": "https://tedix.dev"
+	},
+	"plugins": [
+		{
+			"name": "tedix",
+			"source": "./",
+			"description": "Tedix workflows, tedi delegation, and durable results through your connected organization."
+		}
+	]
+}
