@@ -25,7 +25,7 @@ Keep the first answer short: **current state → evidence → next useful action
    for another organization. If access fails, use `tedix-connect`.
    Local context recovery is optional: on a CLI-required coding path, when no
    fresh hook brief or target is present, run `tedix setup agents context show
---json`. A bound result supplies the profile/project and optional Work ID.
+   --json`. A bound result supplies the profile/project and optional Work ID.
    An invalid binding needs repair; an unbound result grants no target. Explicit
    user and repository targets take precedence. Binding is not admission.
 2. For an exact Work Item ID, read its current context, newest bounded
@@ -42,7 +42,7 @@ Keep the first answer short: **current state → evidence → next useful action
    request and actual receipts when possible; ask only if the target remains
    ambiguous.
    For a bound project, use `tedix -w <workspace> work find "<terms>"
---project <project-id> --limit 10 --json` and show at most three candidates.
+   --project <project-id> --limit 10 --json` and show at most three candidates.
    Start candidate search inside the bound project; do not choose an item merely
    because it is the newest. Read the relevant owning docs and exact affected
    paths, then use bounded Git history and Work-Item commit receipts to find
@@ -125,6 +125,23 @@ is unavailable on this host; keep the useful request link instead of pretending
 that a local prompt hook can wake an idle chat.
 
 ## Route the requested job
+
+For “build a factory” or “is this factory healthy?”, read
+<https://docs.tedix.dev/factory-agent-guide> before choosing setup or recovery.
+Use its bounded read-only inspection over the selected Workspace's structured
+project links, resources, Work/Attempts, Gadgets and Output access. A project
+mentioned in prose is a candidate, not a canonical link. Inspect each workflow's
+declared tool IDs and exact schemas; do not assemble a tool bundle from its name.
+Keep configuration, automation activation, successful execution and verified
+publication separate. Archived skills and old receipts do not authorize a
+restart. Continue to the matching execution or Output skill only for the
+authorized next action; this inspection creates no Work and grants no authority.
+For a setup goal, follow the guide's goal-to-proposal procedure: reuse first,
+resolve exact published Blueprint pins and selected resource bindings through
+read-only preflight, then propose only missing changes with a checkable outcome.
+A failed preflight leaves dependencies unknown. Configure and activate only
+after the required acceptance and admission; instantiation copies no credentials
+and does not prove execution or publication.
 
 | User need                                                           | Tedix path                                                                                                                                                             |
 | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
