@@ -1,6 +1,6 @@
 {
 	"name": "tedix",
-	"version": "0.2.2",
+	"version": "0.2.4",
 	"description": "Tedix workflows, tedi delegation, and durable results through your connected organization.",
 	"author": {
 		"name": "Tedix",
@@ -9,8 +9,6 @@
 	"homepage": "https://docs.tedix.dev",
 	"repository": "https://github.com/tedix-hq/tedix-plugins",
 	"license": "AGPL-3.0-only",
-	"privacyPolicyUrl": "https://tedix.dev/privacy/",
-	"termsOfServiceUrl": "https://tedix.dev/terms/",
 	"keywords": [
 		"tedix",
 		"digital-workers",
