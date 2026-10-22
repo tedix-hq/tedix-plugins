@@ -20,6 +20,17 @@ server admission and Attempt fences establish actual access and state.
 
 ## Find the right context
 
+For “what next?” or “what needs me?”, at the start of a Tedix work session,
+or after finishing a task, discover `show_deck` and `show_feed` in the active
+organization. When available and authorized, call `show_deck` for decisions
+needing the person, or `show_feed` for relevant updates. Use the returned MCP
+App view on rendering hosts; on terminal hosts show at most three asks, each
+with why now and a deep link. Keep it short, omit empty results, respect quiet
+or opt-out requests, and do not repeat cards already shown in this session.
+After an organization switch, read fresh; cached plugin context from the old
+organization does not apply. A card supplies no approval or execution authority.
+An ordinary remote connector cannot wake an idle chat.
+
 1. Use the authenticated plugin connection for ordinary Tedix workflows,
    including on a host with a shell. Do not require CLI installation. Honor an
    explicit user surface and repository policy: Tedix repository engineering
@@ -42,9 +53,11 @@ server admission and Attempt fences establish actual access and state.
    `tedix -w <workspace> work attempts <id> --limit 5` and
    `tedix -w <workspace> work readiness <id>`.
    If the user supplied title terms but no ID, use a bounded `work find`
-   query. For “what needs my attention,” read the authenticated actor's
-   `work inbox`; do not scan the entire organization or assume that an empty
-   page means there is no work. On the native plugin path, discover and call the
+   query. For “what needs my attention,” run `work checkpoint` when this chat
+   has selected Work, `tedix -w <workspace> status` for runs and approvals
+   waiting on you, and `work list --disposition proposed --project <id>` for
+   items awaiting acceptance; do not scan the entire organization or assume
+   that an empty page means there is no work. On the native plugin path, discover and call the
    equivalent scoped Work read tools. Show at most three candidates with
    their IDs, disposition, and source. Resolve the intended task from the user
    request and actual receipts when possible; ask only if the target remains
@@ -58,9 +71,10 @@ server admission and Attempt fences establish actual access and state.
    another project, read that exact item in the same authorized organization;
    the project filter is not a ban on relevant history. Do not scan unrelated
    projects or cross organization boundaries. Historical or completed Work is
-   context, not a task to reopen or an Attempt to inherit. `context select <id>` records an
-   explicit local choice for this checkout, branch and Codex chat. The CLI uses
-   the current Codex identity; an operator outside the chat can pass
+   context, not a task to reopen or an Attempt to inherit.
+   `tedix setup agents context select <id>` records an explicit local choice
+   for this checkout, branch and Codex chat. The CLI uses the current Codex
+   identity; an operator outside the chat can pass
    `--session <chat-UUID>`. When chat selections exist, never replace missing
    identity with another chat or checkout selection. Binding/selection is
    correlation, not an admitted Attempt.
@@ -70,6 +84,20 @@ server admission and Attempt fences establish actual access and state.
    observed Attempt belongs to its recorded executor, not to this chat.
 
 ## Continue an authorized repository task
+
+When a registered local lane has a result that needs its requesting person
+(an answer, a decision, or a draft to send), hand it off with
+`tedix lane done "<what was done; document/Work link>" --needs-user "<exact next click>"`.
+Pass `--request-id <ledger-id>` when the original private request is known.
+Use this for every human-dependent lane result; a report file alone is not a
+handoff. Settlement creates one Needs-you Interaction, marks the ledger waiting
+on the person, and leaves Work open. Never send the draft or make the decision
+for them. The person can choose Done or Snooze 1 day. Bound Claude/Codex event
+channels show the ask at the next prompt; read its current record before acting.
+After 24 hours the morning digest reminds once per day; after seven days the
+original owner reviews relevance through the existing Interaction review flow.
+
+Agents must create worktrees under `.worktrees/` (or harness-managed locations), never sibling clones.
 
 An explicit request to implement, fix or ship a repository task authorizes its
 required Work bookkeeping under that repository's and organization's policies.
@@ -142,6 +170,8 @@ missing configuration with exact resource bindings and dependency decisions.
 The inspection grants no authority to create, activate or restart anything.
 Use the bundled Work lifecycle for an authorized next execution step. Keep
 configuration, activation, execution, durable results and publication separate.
+To install, configure or operate a workspace app such as Card review, follow
+[Build a workspace app](https://docs.tedix.dev/build-a-workspace-app).
 
 | User need                                                           | Tedix path                                                                                                                                                             |
 | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -150,6 +180,26 @@ configuration, activation, execution, durable results and publication separate.
 | Execute an existing accepted Work Item                              | Use `tedix-resume-work` and the bundled [Work lifecycle](references/work-lifecycle.md). Check identity, admission, lease, scope, and neighbours before editing.        |
 | Create or revise a Tedix Workspace document, sheet, or presentation | Use `tedix-workspace-output`; identify the exact OS Workspace and verify the committed revision or proposal state.                                                     |
 | Review this session's authority or risk                             | Use `tedix-guardian-session` for a read-only checkpoint.                                                                                                               |
+
+### Use Code Mode well
+
+The `code` tool description covers discovery and calls; the server
+instructions carry the rest:
+
+- **Evidence:** claim only a result's `completionEvidence.supportedClaims`,
+  cite its `evidenceRefs`, and poll `read_execution` until terminal evidence
+  instead of inferring completion from an accepted job. When `retry.blocked`
+  is true, change the arguments or plan.
+- **Long work:** for about ten or more tool steps, use `flow.run` (or
+  `tedix flow run --file plan.ts --watch`) so the steps run durably off your
+  context; return a bounded value, keep bulk output in an artifact, and poll
+  `flow.status` later.
+- **Visuals:** when a picture answers better, shape the data in the same run
+  and return `ui.create_view`, `ui.create_mcp_app` or
+  `ui.create_health_sweep`; embed generated media as
+  `/skill-runs/{runId}/media/{artifactPath}`, never a signed or absolute URL.
+- **Payments:** Connect offers no paid tools or money movement. On other
+  connections, return a paid tool's payment challenge directly.
 
 Explain the relevant path and proceed with the user's authorized task. Do not
 ask them to choose among all Tedix products when their requested path is clear.
@@ -194,3 +244,12 @@ for an explicitly authorized task described above. Keep broad Tedix recording
 off unless separately designed and authorized. The only designed recording is
 decision capture, which the operator enables per organization with
 `tedix setup agents context enable-decision-capture`; never enable it for them.
+
+## Launch a local lane with relevant brain lessons
+
+Before dispatch, use `tedix lane brief <brief-file> --host codex` (or `claude`)
+and pass the returned text as the lane prompt. This recalls matching approved
+lessons independently of hook trust. `tedix lane start` prints matching lessons
+and an enriched brief too; pass `--brief-file` when the title omits relevant
+paths. `work handoff --launch` adds recall to its prompt automatically. Recall
+is advisory context, never an admission grant or a blocking gate.

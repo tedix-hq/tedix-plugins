@@ -57,3 +57,9 @@ If the Workspace or Output is not visible, report that
 exact lookup failure. On a revision conflict, re-read and reconcile instead
 of replaying stale content. Never archive, delete, publish, or export as a
 substitute for the requested authoring action.
+
+To review factory cards in a sheet, or to install a workspace app that does,
+follow [Build a workspace app](https://docs.tedix.dev/build-a-workspace-app).
+When the app is open in a browser with WebMCP, its own tools (for example
+`card_review_next_card`) act on the screen the person is watching; the guide's
+"Expose WebMCP tools" section lists them.

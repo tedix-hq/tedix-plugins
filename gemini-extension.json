@@ -1,0 +1,10 @@
+{
+	"name": "tedix",
+	"version": "0.2.7",
+	"description": "Tedix workflows, tedi delegation, and durable results through your connected organization.",
+	"mcpServers": {
+		"tedix": {
+			"httpUrl": "https://connect.mcp.tedix.dev/mcp"
+		}
+	}
+}
