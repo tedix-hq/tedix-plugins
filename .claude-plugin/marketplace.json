@@ -1,6 +1,6 @@
 {
 	"name": "tedix-plugins",
-	"description": "The Tedix plugin for Claude Code",
+	"description": "Bring your team’s tasks, knowledge, and working instructions into the AI assistant you already use.",
 	"owner": {
 		"name": "Tedix",
 		"url": "https://tedix.dev"
@@ -9,7 +9,7 @@
 		{
 			"name": "tedix",
 			"source": "./",
-			"description": "Tedix workflows, tedi delegation, and durable results through your connected organization."
+			"description": "Bring your team’s tasks, knowledge, and working instructions into the AI assistant you already use."
 		}
 	]
 }

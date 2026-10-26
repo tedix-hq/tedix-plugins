@@ -1,7 +1,7 @@
 {
 	"name": "tedix",
-	"version": "0.2.7",
-	"description": "Tedix workflows, tedi delegation, and durable results through your connected organization.",
+	"version": "0.2.8",
+	"description": "Bring your team’s tasks, knowledge, and working instructions into the AI assistant you already use.",
 	"mcpServers": {
 		"tedix": {
 			"httpUrl": "https://connect.mcp.tedix.dev/mcp"
