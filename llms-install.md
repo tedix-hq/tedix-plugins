@@ -2,10 +2,10 @@
 
 Instructions for an AI agent installing Tedix for its user.
 
-Tedix is a remote MCP server. Nothing runs locally and no API key is needed:
-the user signs in through the browser with OAuth the first time the server is
-used. Tedix Cloud is an invited beta; a user without access gets a sign-in
-page that offers to request it.
+Tedix is a platform for agents, apps, and work. These steps add its remote MCP
+connection. No local server or API key is needed: the user signs in through the
+browser with OAuth the first time the connection is used. Tedix Cloud is an
+invited beta; a user without access gets a sign-in page that offers to request it.
 
 ## 1. Add the server
 
@@ -35,7 +35,7 @@ token, password or cookie; sign-in and consent belong to the user.
 ## 3. Check the connection
 
 After sign-in, list the server's tools. Start with a read-only call, such as
-listing the user's Work or reading the Deck of decisions waiting for them.
+listing the user's Work or reading the decisions waiting for them in Decisions.
 Discover each tool's schema before calling it, and treat any tool that writes
 or sends something as a change the user must ask for.
 
