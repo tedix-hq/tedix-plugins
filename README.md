@@ -1,22 +1,11 @@
 # Tedix plugins
 
-**A platform for agents, apps, and work.**
+Connect Claude Code, Codex, and other AI assistants to Tedix for shared tasks,
+project knowledge, decisions, and results. Bring your team's working
+instructions into the assistant you already use.
 
-Tedix gives your team and AI agents a shared place for project information,
-tasks, apps, and results. The plugin connects the AI assistant you already use
-to that shared work.
-
-- **Explain things once.** Save your project's setup, coding guidelines,
-  and past decisions for agents to use in later tasks.
-- **See who is doing what.** People and agents share a list of tasks, with an
-  owner, progress, and results for each one.
-- **Keep the result useful.** Keep investigation notes, test results, release
-  plans, and apps together in a workspace where your team can find them.
-- **Know when you are needed.** Review requests for your approval in one place
-  and check other updates when it suits you.
-
-You choose what agents can access and which actions need approval. Sign in
-to your Tedix organization to use the plugin with the permissions you grant.
+Tedix is a platform for agents, apps, and work. The plugin connects your
+assistant to your Tedix organization through Tedix Connect, its MCP server.
 
 > Generated from [`plugins/tedix`](https://github.com/tedix-hq/tedix/tree/main/plugins/tedix)
 > in [tedix-hq/tedix](https://github.com/tedix-hq/tedix). Edit there; this
@@ -50,6 +39,21 @@ codex mcp login tedix
 gemini extensions install https://github.com/tedix-hq/tedix-plugins
 ```
 
+**Devin CLI, Desktop and cloud**
+
+```sh
+devin plugins install tedix-hq/tedix-plugins -y
+devin plugins info tedix
+```
+
+Complete the MCP sign-in in Devin. Each host keeps its own OAuth grant.
+
+**OpenCode 1 and 2**
+
+Add `<absolute-path-to-this-checkout>/.opencode-plugin` to the `plugin` list
+in your OpenCode configuration, restart, then run `opencode mcp auth tedix`.
+Keep the complete checkout: the adapter uses its shared `skills/` directory.
+
 **Skills only, for any agent that reads Agent Skills**
 
 ```sh
@@ -64,20 +68,24 @@ with OAuth the first time a skill needs it.
 
 ## What is included
 
-| Path                    | For                                          |
-| ----------------------- | -------------------------------------------- |
-| `skills/`               | Agent Skills shared by every host            |
-| `.mcp.json`             | The remote Tedix MCP server (HTTP)           |
-| `.claude-plugin/`       | Claude Code plugin and marketplace manifests |
-| `.codex-plugin/`        | Codex plugin manifest                        |
-| `.agents/plugins/`      | Codex marketplace manifest                   |
-| `gemini-extension.json` | Gemini CLI and Antigravity extension         |
-| `llms-install.md`       | Install steps for installer agents           |
-| `assets/`               | Icons and logos                              |
+| Path                      | For                                          |
+| ------------------------- | -------------------------------------------- |
+| `skills/`                 | Agent Skills shared by every host            |
+| `plugin.json`, `mcp.json` | Portable plugin identity and MCP connection  |
+| `.mcp.json`               | The remote Tedix MCP server (HTTP)           |
+| `.claude-plugin/`         | Claude Code plugin and marketplace manifests |
+| `.codex-plugin/`          | Codex plugin manifest                        |
+| `.agents/plugins/`        | Codex marketplace manifest                   |
+| `.devin-plugin/`          | Devin plugin manifest                        |
+| `.opencode-plugin/`       | OpenCode 1 and 2 adapter                     |
+| `gemini-extension.json`   | Gemini CLI and Antigravity extension         |
+| `llms-install.md`         | Install steps for installer agents           |
+| `assets/`                 | Icons and logos                              |
 
-This published plugin contains **no hooks**. Optional local session hooks
-(session context, decision capture, turn status) ship with the
+The Git package omits lifecycle hook manifests. Optional local session hooks
+(session context, decision capture, turn status) run in the
 [Tedix CLI](https://docs.tedix.dev/cli): `tedix setup agents`.
+The OpenCode adapter also calls those hooks when the CLI is installed.
 
 ## Connected actions and payments
 

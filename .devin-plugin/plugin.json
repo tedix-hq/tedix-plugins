@@ -1,0 +1,32 @@
+{
+	"name": "tedix",
+	"displayName": "Tedix",
+	"version": "0.2.12",
+	"description": "Tedix is a platform for agents, apps, and work. Give your team and AI agents a shared place for project information, tasks, apps, and results.",
+	"shortDescription": "Agents, apps, and work",
+	"logo": "assets/logo.png",
+	"keywords": [
+		"tedix",
+		"ai-agents",
+		"agent-skills",
+		"claude-code-plugin",
+		"codex",
+		"mcp",
+		"task-management"
+	],
+	"author": {
+		"name": "Tedix",
+		"url": "https://tedix.dev"
+	},
+	"homepage": "https://docs.tedix.dev/learning-paths/first-plugin",
+	"repository": "https://github.com/tedix-hq/tedix-plugins",
+	"license": "AGPL-3.0-only",
+	"skills": "skills",
+	"mcpServers": {
+		"tedix": {
+			"url": "https://connect.mcp.tedix.dev/mcp",
+			"transport": "http",
+			"oauthClientId": "https://os.tedix.dev/.well-known/oauth-client/devin.json"
+		}
+	}
+}
