@@ -64,6 +64,12 @@ const { revision } = await this.env.TEDIX.outputsRead(slot, {});
 const content = revision.content;
 ```
 
+To show a project's live Work board, bind a slot to a Tedix `project`
+resource and grant it `work.read`; then
+`await this.env.TEDIX.workRead(slot, {limit, offset})` returns
+`{project, rows, pagination}` for that project only (limit at most 50). Read
+on open and on Reload instead of copying Work into a sheet.
+
 Build callers may also use `outputsWrite(slot, {content, expectedRevision})`,
 `connectionsCall` and `skillsRun` when the
 role, resource type, manifest grant and current authorization all allow it.
@@ -72,8 +78,9 @@ ambient Cloudflare bindings, credentials or arbitrary host tools are available.
 
 ## Roles and grants
 
-- `owner` and `build`: `app.call`, Output reads/writes, connection calls and skill runs.
-- `use`: `app.call` and Output reads. App-local KV writes through a public
+- `owner` and `build`: `app.call`, Output reads/writes, connection calls,
+  skill runs and Work board reads (`work.read`).
+- `use`: `app.call`, Output reads and Work board reads. App-local KV writes through a public
   method are possible; do not confuse them with permission to write Outputs.
 - `viewer`: no runtime operations. `context` exposes presentation context only.
 
@@ -115,8 +122,9 @@ manual retry and preserve user input.
 
 Before handing off:
 
-- Own light-theme colours on `:root` (`color-scheme: light`, background, surface,
-  foreground, muted, border, accent and on-accent); the host gives no tokens.
+- Colour with the host's `--tedix-*` variables (`bg`, `fg`, `surface`, `muted`,
+  `muted-fg`, `border`, `primary`, `on-primary`, `font`, `radius`), each with a
+  fallback such as `var(--tedix-surface, Canvas)`; do not set `color-scheme`.
 - Write plain copy in the language the organization or workspace uses (never
   assume one) and keep it in `config.settings`; use semantic buttons, visible
   focus and labelled controls.
