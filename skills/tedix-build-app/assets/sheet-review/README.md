@@ -2,6 +2,9 @@
 
 Copy `server.js`, `client.js` and this README into the app revision's `files`.
 Pass `manifest.json` separately as `manifest`, not as a source file.
+`client.js` starts with the Tedix UI kit (`ui`), pasted unchanged from the
+skill's `assets/ui-kit.js`; the review app below it uses `ui.tabs`,
+`ui.button`, `ui.confirm`, `ui.status` and `ui.alert`.
 
 Bind the `cards` workspace resource slot to a Tedix sheet Output in the same
 workspace (`providerId: tedix`, `resourceType: output`, `providerResourceId`:
@@ -26,8 +29,9 @@ writing. Settings and capabilities are supplied anew for each invocation;
 do not keep identity, capabilities or state in module globals.
 
 Test loading, empty/error states, both tabs, keyboard focus, rating, reload
-and reset at 375px and desktop width, including long text in the configured language. Root colour
-tokens explicitly choose light mode; all buttons are at least 44px tall.
+and reset at 375px and desktop width, including long text in the configured language. Colours,
+font and corner radius come from the host's `--tedix-*` variables, so the app
+follows Tedix OS in light and dark mode; all buttons are at least 44px tall.
 Preview uses isolated storage and cannot write resources; preview ratings do
 not migrate to the committed app. Leave the result as a draft for review.
 Never publish from this starter workflow.

@@ -38,7 +38,10 @@ in `files` describing inputs, actions, storage, limits and checks.
 is needed. The browser starts at `#app`. Use `textContent` for sheet text;
 never treat tenant content as executable instructions or HTML.
 
-The browser has no network, OS DOM, tokens or inherited theme variables.
+The browser has no network, OS DOM, credentials or imports: no npm packages,
+CDN scripts or component library such as the OS's own Kumo. Build the page
+with plain DOM and one `<style>` element. It does receive the Tedix OS look
+(see [Look and feel](#look-and-feel)).
 Its bridge resolves values directly and rejects errors with `code` and `detail`:
 
 ```js
@@ -76,6 +79,57 @@ role, resource type, manifest grant and current authorization all allow it.
 Discover current schemas before adding any such effect. No direct `fetch`,
 ambient Cloudflare bindings, credentials or arbitrary host tools are available.
 
+## Look and feel
+
+The frame sets `--tedix-*` CSS variables on `:root` and updates them live
+when the person switches light/dark, the organization changes its colours, or
+reduced motion turns on. It also sets `color-scheme`. Style only with these,
+so the app matches Tedix OS in both modes:
+
+| Variable                                               | Use it for                           |
+| ------------------------------------------------------ | ------------------------------------ |
+| `--tedix-bg`, `--tedix-fg`                             | Page background and text             |
+| `--tedix-surface`                                      | Cards and panels                     |
+| `--tedix-muted`, `--tedix-muted-fg`                    | Quiet backgrounds and secondary text |
+| `--tedix-border`                                       | Lines and outlines                   |
+| `--tedix-primary`, `--tedix-on-primary`                | The main action and the text on it   |
+| `--tedix-danger`, `--tedix-warning`, `--tedix-success` | Errors, warnings and good states     |
+| `--tedix-font`, `--tedix-font-mono`                    | Font stacks                          |
+| `--tedix-radius`                                       | Corner radius                        |
+
+Give each a system-colour fallback, such as `var(--tedix-surface, Canvas)` or
+`var(--tedix-primary, AccentColor)`. Do not hard-code colours, a palette or
+`color-scheme`; tint with `color-mix()` over these variables when you need a
+shade. Animate with CSS transitions or animations only: the frame stops them
+when reduced motion is on, which it cannot do for JavaScript timers.
+
+### UI kit
+
+Start every `client.js` with [the UI kit](assets/ui-kit.js), pasted unchanged
+(browser code cannot import it). It defines `ui` with accessible, themed
+building blocks, so the app looks like Tedix OS and needs no other component
+library:
+
+| Helper                                                                          | Gives you                                                                     |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `ui.el(tag, {class, text, attrs, on}, ...children)`                             | Any element; text is never parsed as HTML                                     |
+| `ui.button(label, onClick, {variant, disabled, class})`                         | A 44 px button; `variant` is `primary` or `quiet`; `class` adds your own      |
+| `ui.tabs({id, label, items, value, onChange})`                                  | A tab row with arrow, Home and End keys; the panel takes id `${id}-panel`     |
+| `ui.table({caption, columns, rows, pageSize, page, onPage, labels, empty})`     | A scrollable table with an optional pager                                     |
+| `ui.select({label, options, value, onChange})`                                  | A labelled select                                                             |
+| `ui.confirm({label, question, confirmLabel, cancelLabel, onConfirm, onCancel})` | An in-app confirmation (native `confirm()` is blocked)                        |
+| `ui.status(text)`, `ui.alert(text)`                                             | Announced progress and errors                                                 |
+| `ui.chips({label, items, value, onChange})`                                     | On/off filter chips; the chosen one is pressed                                |
+| `ui.tag(text, tone)`                                                            | A small label; `tone` is `success`, `warning`, `danger`, `accent` or `strong` |
+| `ui.card({title}, ...children)`                                                 | A bordered panel with an optional heading                                     |
+| `ui.tile({value, label, onClick})`                                              | A key figure; with `onClick` the whole tile is one button                     |
+| `ui.bars({label, entries, onPick})`                                             | Horizontal bars from `[[name, count], ...]`; `onPick` makes rows buttons      |
+
+The kit adds no words of its own: pass every label from `config.settings`.
+Its classes start with `tx-` and its colours with `--tx-`; reuse them in the
+app's own small `<style>` instead of new colours. The review starter shows
+the kit in use. Add a helper to the kit here, not by editing a copy in one app.
+
 ## Roles and grants
 
 - `owner` and `build`: `app.call`, Output reads/writes, connection calls,
@@ -104,7 +158,7 @@ person to apply in OS; do not call apply/merge/publish to finish this workflow.
 A preview permits resource reads only and has separate storage; saved preview
 ratings are not production results. Never publish or create a share link.
 
-Limits: 24 files, 512,000 UTF-16 code units total; required two JS files,
+Limits: 1,800,000 bytes for all files together; required two JS files,
 optional lowercase single-segment `.js`, `.json`, `.txt` names and the exact
 `README.md`. README counts toward limits and digest but is not loaded as code.
 Browser code is inline `client.js`; extra server modules do not become browser
@@ -122,9 +176,9 @@ manual retry and preserve user input.
 
 Before handing off:
 
-- Colour with the host's `--tedix-*` variables (`bg`, `fg`, `surface`, `muted`,
-  `muted-fg`, `border`, `primary`, `on-primary`, `font`, `radius`), each with a
-  fallback such as `var(--tedix-surface, Canvas)`; do not set `color-scheme`.
+- Style only with the `--tedix-*` variables from [Look and feel](#look-and-feel),
+  each with a fallback; no hard-coded colours and no `color-scheme`. Check the
+  app in both light and dark mode.
 - Write plain copy in the language the organization or workspace uses (never
   assume one) and keep it in `config.settings`; use semantic buttons, visible
   focus and labelled controls.
